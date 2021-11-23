@@ -85,9 +85,6 @@ async def mentionall(event):
 @client.on(events.NewMessage(pattern="^/stop ?(.*)"))
 @authorized_users_only
 async def stop(event):
-    if event.is_private:
-    return await event.respond("__This command can be use in groups and channels!__")
-  
   admins = []
   async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
     admins.append(admin.id)
