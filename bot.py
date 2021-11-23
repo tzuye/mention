@@ -19,7 +19,7 @@ async def start(event):
   await event.reply("__**Saya Adalah MentionAll Bot**, Saya Dapat Membantu Anda Mention Semua Member 👻\nClick **/help** Untuk Infromasi Lebih Lanjut__\n\n Maintaned By @boysax",
                     buttons=(
                       [Button.url('📣 Channel', 'https://t.me/atmosveryx'),
-                      Button.url('📦 Group', 'https://t.me/ilegalvirtual')]
+                      Button.url('📦 Group', 'https://t.me/RioGroupSupport')]
                     ),
                     link_preview=False
                    )
@@ -29,7 +29,7 @@ async def help(event):
   await event.reply(helptext,
                     buttons=(
                       [Button.url('📣 Channel', 'https://t.me/atmosveryx'),
-                      Button.url('📦 Group', 'https://t.me/ilegalvirtual')]
+                      Button.url('📦 Group', 'https://t.me/RioGroupSupport')]
                     ),
                     link_preview=False
                    )
@@ -81,6 +81,18 @@ async def mentionall(event):
         await asyncio.sleep(2)
         usrnum = 0
         usrtxt = ""
-        
+
+@client.on(events.NewMessage(pattern="^/stop ?(.*)"))
+@authorized_users_only
+async def stop(event):
+    if event.is_private:
+    return await event.respond("__This command can be use in groups and channels!__")
+  
+  admins = []
+  async for admin in client.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+    admins.append(admin.id)
+  if not event.sender_id in admins:
+    return await event.respond("__Only admins can stop!__")
+
 print(">> BOT STARTED <<")
 client.run_until_disconnected()
